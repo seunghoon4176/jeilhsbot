@@ -4,6 +4,7 @@ import config from '../config.json';
 const server = new Server({ useKakaoLink: true });
 
 server.on('message', async (msg) => {
+  
   const prefix = '>';
   if (!msg.content.startsWith(prefix)) return;
 
