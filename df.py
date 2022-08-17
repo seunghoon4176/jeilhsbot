@@ -7,8 +7,9 @@ import pandas as pd # 가져온 채팅내용 DF로 쓸거라서
 import sendms
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
-kakao_opentalk_name = '제주일고2-7(2022)'
+kakao_opentalk_name = '공동연구'
 chat_command = '급식'  # 테스트용..
+sendms.setupHwnd(kakao_opentalk_name)
 
 PBYTE256 = ctypes.c_ubyte * 256
 _user32 = ctypes.WinDLL("user32")
@@ -143,11 +144,6 @@ def chat_chek_command(cls, clst):
 
         if 1 <= int(found.count()):
             print("-------커멘드 확인!")
-            p_time_ymd_hms = \
-                f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} / " \
-                f"{time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
-                
-            realtimeList = naver_realtimeList()  # 네이버 실시간 검색어 상위 20개
 
             # 명령어 여러개 쓸경우 리턴값으로 각각 빼서 쓰면 될듯. 일단 테스트용으로 위에 하드코딩 해둠
             return df.index[-2], df.iloc[-2, 0]
@@ -156,28 +152,26 @@ def chat_chek_command(cls, clst):
             print("커멘드 미확인")
             return df.index[-2], df.iloc[-2, 0]
 
-
-
-
-
-
-
-
-# # 네이버 실검 상위 20개, 리턴
-def naver_realtimeList():
+# # 학교 홈페이지에서 식단 크롤링 후 채팅방에 전송하기
+def lunchMenu():
     url = 'https://jeil.jje.hs.kr/' # 학교 메인 홈페이지 URL
 
     response = requests.get(url)
+    html = response.text
+    soup = BeautifulSoup(html, 'html.parser')
+    content = soup.select_one('#container > div.main_content > div.meal_menu > ul > li')
+    temp = content.find_all(text=True) # 텍스트만 찾아서 추출 후 리스트 형태로 저장
+    result = []
 
-    if response.status_code == 200:
-        html = response.text
-        soup = BeautifulSoup(html, 'html.parser')
-        content = soup.select_one('#container > div.main_content > div.meal_menu > ul > li')
-        lunch_menu = content.find_all(text=True) # 텍스트만 찾아서 추출 후 리스트 형태로 저장
-        
-    s = "\n".join(list(lunch_menu))
-    print(s)
-    sendms.kakao_sendtext(s)
+    for i in temp :
+        if "★" in i :
+            result.append(i)
+        else :
+            result.append(i[0:i.find("(")])
+
+    lunch_menu = "\n".join(result)
+
+    sendms.kakao_sendtext(lunch_menu)
 
 def main():
 
