@@ -8,7 +8,7 @@ import pandas as pd # 가져온 채팅내용 DF로 쓸거라서
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
 kakao_opentalk_name = '메모장'
-chat_command = '실검 알려줘'  # 테스트용..
+chat_command = '급식'  # 테스트용..
 
 PBYTE256 = ctypes.c_ubyte * 256
 _user32 = ctypes.WinDLL("user32")
@@ -167,6 +167,12 @@ def chat_chek_command(cls, clst):
             return df.index[-2], df.iloc[-2, 0]
 
 
+
+
+
+
+
+
 # # 네이버 실검 상위 20개, 리턴
 def naver_realtimeList():
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'}
@@ -179,9 +185,14 @@ def naver_realtimeList():
     a = []
     for item in data:
         a.append(item.get_text())
-
+    
     s = "\n".join(a)
     return s
+
+
+
+
+
 
 
 # # 스케줄러 job_1
