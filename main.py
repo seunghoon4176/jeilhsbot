@@ -5,7 +5,16 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from pywinauto import clipboard # 채팅창내용 가져오기 위해
 import pandas as pd # 가져온 채팅내용 DF로 쓸거라서
 import sendms
+<<<<<<< HEAD:df.py
 import os
+=======
+from selenium.webdriver.common.by import By
+from lib2to3.pgen2 import driver
+from os import scandir
+from sched import scheduler
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+>>>>>>> 32ceb6a1953a98513853b51bdc217c26539fa341:main.py
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
 kakao_opentalk_name = '공동연구'
