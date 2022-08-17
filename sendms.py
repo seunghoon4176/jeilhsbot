@@ -33,4 +33,4 @@ hwndListControl = win32gui.FindWindowEx( hwndMain, None, "EVA_VH_ListControl_Dbl
 
 # 채팅 전송
 text = '\n'.join(list(lunch_menu))
-kakao_sendtext(text)
+kakao_sendtext(text) 
