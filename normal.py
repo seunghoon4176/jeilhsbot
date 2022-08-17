@@ -35,9 +35,6 @@ if response.status_code == 200:
     content = soup.select_one('#container > div.main_content > div.meal_menu > ul > li')
     lunch_menu = content.find_all(text=True) # 텍스트만 찾아서 추출 후 리스트 형태로 저장
 
-    for i in lunch_menu :
-        print(i)
-
 
 
 
@@ -58,5 +55,5 @@ hwndEdit = win32gui.FindWindowEx( hwndMain, None, "RichEdit50W", None)
 hwndListControl = win32gui.FindWindowEx( hwndMain, None, "EVA_VH_ListControl_Dblclk", None)
 
 # 채팅 전송
-text = ''.join(lunch_menu)
+text = ''.join(str(lunch_menu))
 kakao_sendtext(text)

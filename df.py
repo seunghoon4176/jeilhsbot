@@ -1,4 +1,4 @@
-import time, win32con, win32api, win32gui, ctypes
+import time, win32con, win32api, win32gui, ctypes, requests
 import requests
 from bs4 import BeautifulSoup
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -175,18 +175,18 @@ def chat_chek_command(cls, clst):
 
 # # 네이버 실검 상위 20개, 리턴
 def naver_realtimeList():
-    headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'}
+    url = 'https://jeil.jje.hs.kr/' # 학교 메인 홈페이지 URL
 
-    url = 'https://datalab.naver.com/keyword/realtimeList.naver?where=main'
-    res = requests.get(url, headers = headers)
-    soup = BeautifulSoup(res.content, 'html.parser')
-    data = soup.findAll('span','item_title')
+    response = requests.get(url)
 
-    a = []
-    for item in data:
-        a.append(item.get_text())
+    if response.status_code == 200:
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        # content = soup.select_one('#container > div.main_content > div.meal_menu > ul > li')
+        content = soup.select_one('#container > div.main_content > div.meal_menu > ul > li')
+        lunch_menu = content.find_all(text=True) # 텍스트만 찾아서 추출 후 리스트 형태로 저장
     
-    s = "\n".join(a)
+    s = "\n".join(str(lunch_menu))
     return s
 
 
@@ -204,6 +204,8 @@ def job_1():
     open_chatroom(kakao_opentalk_name)  # 채팅방 열기
     realtimeList = naver_realtimeList()  # 네이버 실시간 검색어 상위 20개
     kakao_sendtext(kakao_opentalk_name, f"{p_time_ymd_hms}\n{realtimeList}")  # 메시지 전송, time/실검
+
+
 
 
 def main():
