@@ -156,6 +156,7 @@ def chat_chek_command(cls, clst):
             p_time_ymd_hms = \
                 f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} / " \
                 f"{time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
+                
             realtimeList = naver_realtimeList()  # 네이버 실시간 검색어 상위 20개
             kakao_sendtext(kakao_opentalk_name, f"{p_time_ymd_hms}\n{realtimeList}")  # 메시지 전송, time/실검
 
