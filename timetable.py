@@ -35,5 +35,8 @@ browser.implicitly_wait(1) # 대기 시간
 browser.get(url_path) # url로 이동
 browser.implicitly_wait(1) # wait time
 
-browser.find_element(By.XPATH,'//*[@id="all-scroll"]/div/form/div/article/div[3]/dl/dd/a[2]/img').link_text() #xpath값 클릭하기
+dwnLink1 = browser.find_element(By.XPATH,'/html/body/div[2]/div[3]/div/div[2]/div/div[1]/div[3]/div[2]/div/form/div/article/div[3]/dl/dd/a[1]') #xpath값 클릭하기
+dwnLink2 = dwnLink1.find_element(By.TAG_NAME, 'href')
+
+print(dwnLink1)
 time.sleep(3) # 대기 시간
