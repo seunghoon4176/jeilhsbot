@@ -18,7 +18,7 @@ response = requests.get(url)
 if response.status_code == 200:
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
-    content = soup.select_one('#all-scroll > div > div > div.board-text > table.wb > tbody > tr:nth-child(1) > td.link > a')
+    content = soup.select_one('#all-spcroll > div > div > div.board-text > table.wb > tbody > tr:nth-child(1) > td.link > a')
 
 a = str(content)
 b = a.split(',')
