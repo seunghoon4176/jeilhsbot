@@ -181,8 +181,7 @@ def lunchMenu():
 
     sendms.kakao_sendtext(lunch_menu)
 
-    TimeTable()
-    os.path.dir("C:\Users\Jeju\Downloads\" + args)
+    
 
 def TimeTable():
     url = 'https://jeil.jje.hs.kr/jeil-h/0208/board/16996'

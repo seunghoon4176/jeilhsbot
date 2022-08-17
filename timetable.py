@@ -35,5 +35,5 @@ browser.implicitly_wait(1) # 대기 시간
 browser.get(url_path) # url로 이동
 browser.implicitly_wait(1) # wait time
 
-browser.find_element(By.XPATH,'//*[@id="all-scroll"]/div/form/div/article/div[3]/dl/dd/a[2]/img').click() #xpath값 클릭하기
+browser.find_element(By.XPATH,'//*[@id="all-scroll"]/div/form/div/article/div[3]/dl/dd/a[2]/img').link_text() #xpath값 클릭하기
 time.sleep(3) # 대기 시간
