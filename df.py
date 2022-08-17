@@ -4,10 +4,10 @@ from bs4 import BeautifulSoup
 from apscheduler.schedulers.background import BackgroundScheduler
 from pywinauto import clipboard # 채팅창내용 가져오기 위해
 import pandas as pd # 가져온 채팅내용 DF로 쓸거라서
-
+import sendms
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
-kakao_opentalk_name = '메모장'
+kakao_opentalk_name = '제주일고2-7(2022)'
 chat_command = '급식'  # 테스트용..
 
 PBYTE256 = ctypes.c_ubyte * 256
@@ -27,16 +27,6 @@ MapVirtualKeyW = _user32.MapVirtualKeyW
 
 MakeLong = win32api.MAKELONG
 w = win32con
-
-
-# # 채팅방에 메시지 전송
-def kakao_sendtext(chatroom_name, text):
-    # # 핸들 _ 채팅방
-    hwndMain = win32gui.FindWindow( None, chatroom_name)
-    hwndEdit = win32gui.FindWindowEx( hwndMain, None, "RichEdit20W", None)
-
-    win32api.SendMessage(hwndEdit, win32con.WM_SETTEXT, 0, text)
-    SendReturn(hwndEdit)
 
 # # 채팅내용 가져오기
 def copy_chatroom(chatroom_name):
@@ -157,7 +147,6 @@ def chat_chek_command(cls, clst):
                 f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} / " \
                 f"{time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
             realtimeList = naver_realtimeList()  # 네이버 실시간 검색어 상위 20개
-            kakao_sendtext(kakao_opentalk_name, f"{p_time_ymd_hms}\n{realtimeList}")  # 메시지 전송, time/실검
 
             # 명령어 여러개 쓸경우 리턴값으로 각각 빼서 쓰면 될듯. 일단 테스트용으로 위에 하드코딩 해둠
             return df.index[-2], df.iloc[-2, 0]
@@ -182,31 +171,12 @@ def naver_realtimeList():
     if response.status_code == 200:
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
-        # content = soup.select_one('#container > div.main_content > div.meal_menu > ul > li')
         content = soup.select_one('#container > div.main_content > div.meal_menu > ul > li')
         lunch_menu = content.find_all(text=True) # 텍스트만 찾아서 추출 후 리스트 형태로 저장
-    
-    s = "\n".join(str(lunch_menu))
-    return s
-
-
-
-
-
-
-
-# # 스케줄러 job_1
-def job_1():
-    p_time_ymd_hms = \
-        f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} / " \
-        f"{time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
-
-    open_chatroom(kakao_opentalk_name)  # 채팅방 열기
-    realtimeList = naver_realtimeList()  # 네이버 실시간 검색어 상위 20개
-    kakao_sendtext(kakao_opentalk_name, f"{p_time_ymd_hms}\n{realtimeList}")  # 메시지 전송, time/실검
-
-
-
+        
+    s = "\n".join(list(lunch_menu))
+    print(s)
+    sendms.kakao_sendtext(s)
 
 def main():
 
@@ -221,7 +191,7 @@ def main():
     while True:
         print("실행중.................")
         cls, clst = chat_chek_command(cls, clst)  # 커멘드 체크
-        time.sleep(5)
+        time.sleep(1)
 
 
 if __name__ == '__main__':
