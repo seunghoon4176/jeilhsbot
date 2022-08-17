@@ -146,6 +146,7 @@ def chat_chek_command(cls, clst):
             p_time_ymd_hms = \
                 f"{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday} / " \
                 f"{time.localtime().tm_hour}:{time.localtime().tm_min}:{time.localtime().tm_sec}"
+                
             realtimeList = naver_realtimeList()  # 네이버 실시간 검색어 상위 20개
 
             # 명령어 여러개 쓸경우 리턴값으로 각각 빼서 쓰면 될듯. 일단 테스트용으로 위에 하드코딩 해둠
