@@ -5,6 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from pywinauto import clipboard # 채팅창내용 가져오기 위해
 import pandas as pd # 가져온 채팅내용 DF로 쓸거라서
 import sendms
+import os
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
 kakao_opentalk_name = '공동연구'
@@ -172,6 +173,9 @@ def lunchMenu():
     lunch_menu = "\n".join(result)
 
     sendms.kakao_sendtext(lunch_menu)
+
+    TimeTable()
+    os.path.dir(C:\Users\Jeju\Downloads)
 
 def TimeTable():
     url = 'https://jeil.jje.hs.kr/jeil-h/0208/board/16996'
