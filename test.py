@@ -1,3 +1,4 @@
+import os
 from bs4 import BeautifulSoup
 import requests
 
@@ -17,4 +18,12 @@ for i in temp :
         result.append(i[0:i.find("(")])
 
 lunch_menu = "\n".join(result)
-os.pathdirget("C:\Users\Jeju\Downloads")
+
+import pandas as pd
+
+today ="8월19일(금)-탑재용.xlsx"
+filename = ("C:/Users/Jeju/Downloads/8월19일(금)-탑재용.xlsx")
+df=pd.read_excel(filename, engine = "openpyxl",usecols = "X")
+
+
+print(df)

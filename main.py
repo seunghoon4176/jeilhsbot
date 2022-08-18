@@ -180,7 +180,13 @@ def lunchMenu():
     lunch_menu = "\n".join(result)
 
     sendms.kakao_sendtext(lunch_menu)
-
+    TimeTable()
+    
+    today ="8월19일(금)-탑재용.xlsx"
+    #filename = ("C:/Users/Jeju/Downloads" , today , ".xlsx")
+    filename = ("C:/Users/Jeju/Downloads/8월19일(금)-탑재용.xlsx")
+    df=pd.read_excel(filename, engine = "openpyxl")
+    print(df)
     
 
 def TimeTable():
