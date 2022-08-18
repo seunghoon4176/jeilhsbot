@@ -17,3 +17,4 @@ for i in temp :
         result.append(i[0:i.find("(")])
 
 lunch_menu = "\n".join(result)
+os.path.dir("C:\Users\Jeju\Downloads")
