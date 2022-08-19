@@ -12,11 +12,12 @@ from os import scandir
 from sched import scheduler
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import timetable
 
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
 kakao_opentalk_name = '공동연구'
-chat_command = '급식'  # 테스트용..
+chat_command = ''  # 테스트용..
 sendms.setupHwnd(kakao_opentalk_name)
 
 PBYTE256 = ctypes.c_ubyte * 256
@@ -152,7 +153,7 @@ def chat_chek_command(cls, clst):
 
         if 1 <= int(found.count()):
             print("-------커멘드 확인!")
-
+            
             # 명령어 여러개 쓸경우 리턴값으로 각각 빼서 쓰면 될듯. 일단 테스트용으로 위에 하드코딩 해둠
             return df.index[-2], df.iloc[-2, 0]
 
@@ -161,7 +162,7 @@ def chat_chek_command(cls, clst):
             return df.index[-2], df.iloc[-2, 0]
 
 # # 학교 홈페이지에서 식단 크롤링 후 채팅방에 전송하기
-def lunchMenu():
+def startCommand():
     url = 'https://jeil.jje.hs.kr/' # 학교 메인 홈페이지 URL
 
     response = requests.get(url)
@@ -180,42 +181,10 @@ def lunchMenu():
     lunch_menu = "\n".join(result)
 
     sendms.kakao_sendtext(lunch_menu)
-    TimeTable()
-    
-    today ="8월19일(금)-탑재용.xlsx"
-    #filename = ("C:/Users/Jeju/Downloads" , today , ".xlsx")
-    filename = ("C:/Users/Jeju/Downloads/8월19일(금)-탑재용.xlsx")
-    df=pd.read_excel(filename, engine = "openpyxl")
-    print(df)
+    timeTable1 = timetable.getTimeTable()
+    sendms.kakao_sendtext(timeTable1)
     
 
-def TimeTable():
-    url = 'https://jeil.jje.hs.kr/jeil-h/0208/board/16996'
-
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        html = response.text
-        soup = BeautifulSoup(html, 'html.parser')
-        content = soup.select_one('#all-scroll > div > div > div.board-text > table.wb > tbody > tr:nth-child(1) > td.link > a')
-
-    a = str(content)
-    b = a.split(',')
-    c = b[1].strip("'")
-
-# 셀레니움
-    options = webdriver.ChromeOptions()
-    options.add_experimental_option("excludeSwitches", ["enable-logging"])
-    browser = webdriver.Chrome(options=options)
-
-    url_path = 'https://jeil.jje.hs.kr/jeil-h/0208/board/16996/{}'.format(c) # URL 저장 
-
-    browser.implicitly_wait(1) # 대기 시간
-    browser.get(url_path) # url로 이동
-    browser.implicitly_wait(1) # wait time
-
-    browser.find_element(By.XPATH,'//*[@id="all-scroll"]/div/form/div/article/div[3]/dl/dd/a[2]/img').click() #xpath값 클릭하기
-    time.sleep(3) # 대기 시간
 
     
 def main():
