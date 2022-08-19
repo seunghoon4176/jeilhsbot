@@ -2,13 +2,14 @@ from calendar import month
 from itertools import count
 import os
 from re import L
-from time import time
+import time
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 def getTimeTable() :
     url = 'https://jeil.jje.hs.kr/jeil-h/0208/board/16996'
@@ -52,7 +53,7 @@ def getTimeTable() :
     weekday = datetime.today().strftime('%A')
     today = datetime.today().strftime(f'{monthh}월%d일({weekk[weekday]})')
 
-    filename = (f"C:/Users/ssh41/Downloads/{ today }-탑재용.xlsx")
+    filename = (f"C:/Users/Jeju/Downloads/{ today }-탑재용.xlsx")
     df=pd.read_excel(filename, engine = "openpyxl",usecols = "X")
     list_col2 = df.loc[:, df.columns[0]].to_list()
     print_list = []

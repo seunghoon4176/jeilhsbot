@@ -16,8 +16,8 @@ import timetable
 
 
 # # 카톡창 이름, (활성화 상태의 열려있는 창)
-kakao_opentalk_name = '공동연구'
-chat_command = ''  # 테스트용..
+kakao_opentalk_name = '제주일고2-7(2022)'
+chat_command = '정보'  # 테스트용..
 sendms.setupHwnd(kakao_opentalk_name)
 
 PBYTE256 = ctypes.c_ubyte * 256
@@ -153,7 +153,7 @@ def chat_chek_command(cls, clst):
 
         if 1 <= int(found.count()):
             print("-------커멘드 확인!")
-            
+            startCommand()
             # 명령어 여러개 쓸경우 리턴값으로 각각 빼서 쓰면 될듯. 일단 테스트용으로 위에 하드코딩 해둠
             return df.index[-2], df.iloc[-2, 0]
 
